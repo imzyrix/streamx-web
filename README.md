@@ -34,6 +34,19 @@ Change `API_BASE` to point at any other StreamX API instance.
 - Hash routing (`#/movies`, `#/series`, `#/search/<q>`, `#/title/<type>/<id>`) — deep-linkable
 - Fully responsive, keyboard-friendly (Esc closes overlays), reduced-motion aware
 
+## Mobile app mode
+
+On phones (`≤900px`) the UI switches to a native-app layout:
+
+- Bottom **tab bar** (Home · Movies · Series · Search) with active-state highlighting
+- Full-screen **search screen** with its own input and live results
+- Detail opens as a full screen with a **back button** (top-left)
+- **Safe-area** padding for notched devices (`env(safe-area-inset-*)`)
+- Card titles shown without hover on touch devices
+
+It is also an installable **PWA**: `manifest.webmanifest` + icons let it be added to the home
+screen and launch standalone (`display: standalone`, portrait, dark theme).
+
 ## Run locally
 
 Any static file server works (ES modules require HTTP, not `file://`):
@@ -56,11 +69,13 @@ Static hosting — no build command, no environment variables. Publish this fold
 
 ```
 Web/
-├── index.html    # shell: nav, hero, rows, detail + lightbox containers
-├── style.css     # design tokens + all component styles
+├── index.html    # shell: nav, tab bar, hero, rows, detail + lightbox containers
+├── style.css     # design tokens + all component styles (incl. mobile app mode)
 ├── config.js     # API base URLs
 ├── api.js        # tiny fetch client + image URL helpers
-└── app.js        # routing, rows, hero, search, detail, episodes
+├── app.js        # routing, rows, hero, search, detail, episodes
+├── manifest.webmanifest   # PWA manifest (name, icons, standalone display)
+└── icons/        # app icons (192/512, maskable, apple-touch) + SVG sources
 ```
 
 Metadata is provided by [Cinemeta](https://github.com/Stremio/stremio-addons) and artwork by

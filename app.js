@@ -60,6 +60,7 @@ function typeLabel(t) {
 const STAR = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L21.5 9l-4.75 4.4L18 20l-6-3.4L6 20l1.25-6.6L2.5 9l6.6-.74z"/></svg>`;
 const PLAY = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>`;
 const INFO = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg>`;
+const BACK = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 let bgObserver = null;
 function loadBg(node, url) {
@@ -156,6 +157,7 @@ async function showHome(view = "home") {
     );
   });
 
+  rowsEl.classList.toggle("heroless", view !== "home");
   if (view === "home") {
     const featuredPool = [...(byKey["movies-top"] || []), ...(byKey["series-top"] || [])];
     setFeatured(featuredPool);
@@ -166,10 +168,9 @@ async function showHome(view = "home") {
 }
 
 function setActiveNav(view) {
-  navLinks.forEach((a) => {
+  document.querySelectorAll("[data-view]").forEach((a) => {
     const v = a.dataset.view;
-    const on = view === "home" ? v === "home" : v === view;
-    a.classList.toggle("active", on);
+    a.classList.toggle("active", v === view);
   });
 }
 
@@ -259,12 +260,13 @@ function stopHeroTimer() {
 async function openDetail(type, id) {
   document.body.style.overflow = "hidden";
   detailEl.classList.remove("hidden");
-  detailEl.innerHTML = `<button class="detail-close" data-close aria-label="Close">&times;</button><div class="spinner"></div>`;
+  detailEl.innerHTML = `<button class="detail-back" data-close aria-label="Back">${BACK}</button><button class="detail-close" data-close aria-label="Close">&times;</button><div class="spinner"></div>`;
   try {
     const res = await meta(type, id);
     renderDetail(res.meta || {});
   } catch (err) {
     detailEl.innerHTML = `
+      <button class="detail-back" data-close aria-label="Back">${BACK}</button>
       <button class="detail-close" data-close aria-label="Close">&times;</button>
       <div class="error-box"><strong>Could not load details</strong>The API did not return data for this title.</div>`;
   }
@@ -297,6 +299,7 @@ function renderDetail(m) {
   const episodes = type === "series" ? (m.videos || []) : [];
 
   detailEl.innerHTML = `
+    <button class="detail-back" data-close aria-label="Back">${BACK}</button>
     <button class="detail-close" data-close aria-label="Close">&times;</button>
     <div class="detail-hero">
       <div class="detail-bg"></div>
@@ -438,17 +441,26 @@ function joinSearchView(on) {
   document.querySelector(".footer").classList.toggle("hidden", on);
 }
 
-async function showSearch(q) {
-  if (!q) {
-    location.hash = "#/";
-    return;
-  }
-  setActiveNav("");
-  joinSearchView(true);
-  resultsEl.innerHTML = `
-    <div class="search-head"><h2>Results for “${esc(q)}”</h2><p class="muted">Loading…</p></div>
-    <div class="spinner"></div>`;
+function searchViewHTML(q) {
+  return `
+    <div class="search-wrap">
+      <div class="searchbar">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21l-4.35-4.35M11 19a8 8 0 110-16 8 8 0 010 16z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="search-view-input" type="search" value="${esc(q)}" placeholder="Search movies &amp; series" autocomplete="off" aria-label="Search" />
+        <button type="button" class="search-clear" data-clear-search aria-label="Clear search" hidden>&times;</button>
+      </div>
+      <div id="search-view-results"></div>
+    </div>`;
+}
 
+function showSearchEmpty() {
+  const host = document.getElementById("search-view-results");
+  host.innerHTML = `<div class="empty">Start typing to search movies &amp; series.</div>`;
+}
+
+async function runSearch(q) {
+  const host = document.getElementById("search-view-results");
+  host.innerHTML = `<div class="spinner"></div>`;
   const [movies, series] = await Promise.all([
     search(q, "movie").catch(() => ({ metas: [] })),
     search(q, "series").catch(() => ({ metas: [] })),
@@ -460,8 +472,7 @@ async function showSearch(q) {
     seen.add(id);
     return true;
   });
-
-  resultsEl.innerHTML = `
+  host.innerHTML = `
     <div class="search-head">
       <h2>Results for “${esc(q)}”</h2>
       <p class="muted">${items.length} title${items.length === 1 ? "" : "s"}</p>
@@ -469,8 +480,46 @@ async function showSearch(q) {
     ${
       items.length
         ? `<div class="grid">${items.map((m) => cardHTML(m, { badge: typeLabel(m.type || "movie") })).join("")}</div>`
-        : `<div class="empty">No matches. Try another title.</div>`
+        : `<div class="empty">No matches for “${esc(q)}”. Try another title.</div>`
     }`;
+}
+
+function wireSearchView() {
+  const input = document.getElementById("search-view-input");
+  if (!input) return;
+  const clear = document.querySelector("[data-clear-search]");
+  let timer;
+  input.focus({ preventScroll: true });
+  clear.hidden = !input.value;
+  input.addEventListener("input", () => {
+    clear.hidden = !input.value;
+    clearTimeout(timer);
+    const q = input.value.trim();
+    timer = setTimeout(() => (q.length >= 2 ? runSearch(q) : showSearchEmpty()), 300);
+  });
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      clearTimeout(timer);
+      const q = input.value.trim();
+      if (q.length >= 2) runSearch(q);
+    }
+  });
+  clear.addEventListener("click", () => {
+    input.value = "";
+    clear.hidden = true;
+    input.focus();
+    showSearchEmpty();
+  });
+}
+
+function showSearch(q) {
+  setActiveNav("search");
+  joinSearchView(true);
+  q = (q || "").trim();
+  resultsEl.innerHTML = searchViewHTML(q);
+  wireSearchView();
+  if (q) runSearch(q);
+  else showSearchEmpty();
 }
 
 /* ------------------------------------------------------------------ *

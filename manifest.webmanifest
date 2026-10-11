@@ -1,0 +1,19 @@
+{
+  "name": "StreamX — Movies & Series",
+  "short_name": "StreamX",
+  "description": "Browse trending movies and series. Keyless metadata API.",
+  "id": "streamx-web",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#070709",
+  "theme_color": "#070709",
+  "lang": "en",
+  "categories": ["entertainment", "video"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
