@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0c" />
+  <title>StreamX — Movies &amp; Series</title>
+  <meta name="description" content="Browse trending movies and series. Keyless metadata API." />
+  <link rel="preconnect" href="https://api.streamx.qzz.io" crossorigin />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0c'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='40' font-weight='bold' text-anchor='middle' fill='%23ff3b47'%3EX%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#/" aria-label="StreamX home">Stream<span>X</span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a data-view="home" href="#/">Home</a>
+        <a data-view="movie" href="#/movies">Movies</a>
+        <a data-view="series" href="#/series">Series</a>
+      </nav>
+      <form class="search" id="search-form" role="search">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21l-4.35-4.35M11 19a8 8 0 110-16 8 8 0 010 16z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="search-input" type="search" placeholder="Search movies &amp; series" autocomplete="off" aria-label="Search" />
+        <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" hidden>&times;</button>
+      </form>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="hero" aria-live="polite"></section>
+    <div class="rows" id="rows"></div>
+    <section class="search-results hidden" id="search-results"></section>
+  </main>
+
+  <footer class="footer">
+    <p><strong>StreamX</strong> — data &amp; artwork via a keyless metadata API.</p>
+    <p class="muted">Metadata by Cinemeta · artwork by MetaHub. For demonstration.</p>
+  </footer>
+
+  <div class="detail hidden" id="detail" role="dialog" aria-modal="true" aria-label="Title details"></div>
+  <div class="lightbox hidden" id="lightbox"></div>
+
+  <template id="skeleton-row">
+    <div class="row">
+      <div class="row-head"><div class="sk sk-title"></div></div>
+      <div class="row-track" data-skeleton></div>
+    </div>
+  </template>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
