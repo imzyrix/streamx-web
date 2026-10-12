@@ -6,7 +6,7 @@ import { cardsHTML, cardHTML } from "./cards.js";
 import { hideHero } from "./hero.js";
 import { setActiveNav } from "./nav.js";
 import { debounce, esc, itemId, typeLabel } from "./util.js";
-import { SEARCH } from "./icons.js";
+import { icon } from "./icons.js";
 
 const resultsEl = document.getElementById("search-results");
 const rowsEl = document.getElementById("rows");
@@ -50,7 +50,7 @@ function searchViewHTML(q) {
   return `
     <div class="search-wrap">
       <div class="searchbar">
-        ${SEARCH}
+        ${icon("magnifer", "search-icon")}
         <input id="search-view-input" type="search" value="${esc(q)}" placeholder="Search movies &amp; series" autocomplete="off" aria-label="Search" />
         <button type="button" class="search-clear" data-clear-search aria-label="Clear search" hidden>&times;</button>
       </div>

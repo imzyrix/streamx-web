@@ -4,7 +4,8 @@
 // The SVGs are vendored verbatim under icons/solar/<style>/ and rendered with
 // CSS mask-image, so each icon inherits the current text colour. See NOTICE.
 
-const icon = (name) => `<span class="ico ico-${name}" aria-hidden="true"></span>`;
+export const icon = (name, extra = "") =>
+  `<span class="ico ico-${name}${extra ? " " + extra : ""}" aria-hidden="true"></span>`;
 
 export const STAR = icon("star");
 export const PLAY = icon("play");
