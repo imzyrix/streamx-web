@@ -63,12 +63,12 @@ Web/
 ├── style.css               # design tokens + component styles (incl. mobile app mode)
 ├── manifest.webmanifest    # PWA manifest (name, icons, standalone display)
 ├── NOTICE                  # third-party attribution (Solar Icon Set, CC BY 4.0)
-├── icons/                  # app icons (192/512, maskable, apple-touch) + SVG sources
+├── icons/                  # SVG app icon + vendored Solar SVGs (icons/solar/<style>/)
 └── js/
     ├── config.js           # API base URLs, home rows, timing
     ├── api.js              # fetch client, session cache, fallback, image URL helpers
     ├── util.js             # DOM + formatting helpers
-    ├── icons.js            # Solar Icon Set (CC BY 4.0), inlined as currentColor SVGs
+    ├── icons.js            # tiny helper emitting Solar icon spans (see icons/solar/)
     ├── nav.js              # active navigation state
     ├── cards.js            # poster card markup + skeletons
     ├── hero.js             # rotating hero banner

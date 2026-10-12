@@ -41,6 +41,37 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 ::selection { background: var(--accent); color: #fff; }
 
+/* ---------- Icons (Solar Icon Set, CC BY 4.0 — see NOTICE) ---------- */
+/* Vendored SVGs under icons/solar/ are applied as a CSS mask so every icon
+   inherits the surrounding text colour via currentColor. */
+.ico {
+  display: inline-block;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  -webkit-mask: var(--ico) center / contain no-repeat;
+  mask: var(--ico) center / contain no-repeat;
+  vertical-align: -0.15em;
+}
+.ico-star { --ico: url(icons/solar/bold/star.svg); }
+.ico-play { --ico: url(icons/solar/bold/play.svg); }
+.ico-info-circle { --ico: url(icons/solar/linear/info-circle.svg); }
+.ico-alt-arrow-left { --ico: url(icons/solar/linear/alt-arrow-left.svg); }
+.ico-alt-arrow-right { --ico: url(icons/solar/linear/alt-arrow-right.svg); }
+.ico-magnifer { --ico: url(icons/solar/linear/magnifer.svg); }
+.ico-home-smile { --ico: url(icons/solar/linear/home-smile.svg); }
+.ico-clapperboard { --ico: url(icons/solar/linear/clapperboard.svg); }
+.ico-tv { --ico: url(icons/solar/linear/tv.svg); }
+.ico-clock-circle { --ico: url(icons/solar/linear/clock-circle.svg); }
+.ico-calendar { --ico: url(icons/solar/linear/calendar.svg); }
+.ico-arrow-right-up { --ico: url(icons/solar/linear/arrow-right-up.svg); }
+.ico-close-circle { --ico: url(icons/solar/linear/close-circle.svg); }
+.ico-add-circle { --ico: url(icons/solar/linear/add-circle.svg); }
+.ico-check-circle { --ico: url(icons/solar/linear/check-circle.svg); }
+.ico-user { --ico: url(icons/solar/linear/user.svg); }
+.ico-users-group-rounded { --ico: url(icons/solar/linear/users-group-rounded.svg); }
+
 /* ---------- Nav ---------- */
 .nav {
   position: fixed;
@@ -134,7 +165,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-.nav-search-btn svg { width: 19px; height: 19px; }
+.nav-search-btn .ico { width: 19px; height: 19px; }
 .nav-search-btn:hover, .nav-search-btn:active { color: #fff; background: rgba(255, 255, 255, 0.12); }
 
 /* ---------- App bottom tab bar (mobile) ---------- */
@@ -172,10 +203,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-.tab svg { width: 24px; height: 24px; }
+.tab .ico { width: 24px; height: 24px; }
 .tab:active { transform: scale(0.96); }
 .tab.active { color: #fff; }
-.tab.active svg { color: var(--accent); }
+.tab.active .ico { color: var(--accent); }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -248,7 +279,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .btn-primary:hover { background: #e7e7ea; }
 .btn-ghost { background: rgba(255, 255, 255, 0.14); color: #fff; backdrop-filter: blur(6px); }
 .btn-ghost:hover { background: rgba(255, 255, 255, 0.24); }
-.btn svg { width: 20px; height: 20px; }
+.btn .ico { width: 20px; height: 20px; }
 
 .hero-dots { position: absolute; right: var(--gutter); bottom: clamp(40px, 8vh, 96px); z-index: 3; display: flex; gap: 8px; }
 .hero-dots button { width: 9px; height: 9px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.3); padding: 0; transition: background 0.2s ease, width 0.2s ease; }
@@ -409,7 +440,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .detail-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; color: var(--muted); font-size: 0.92rem; margin-bottom: 16px; }
 .pill { padding: 3px 9px; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 0.76rem; color: var(--muted); }
 .rating { display: inline-flex; align-items: center; gap: 6px; color: #ffca2c; font-weight: 700; }
-.rating svg { width: 15px; height: 15px; }
+.rating .ico { width: 15px; height: 15px; }
 .detail-desc { color: #d5d8de; font-size: 1.02rem; max-width: 640px; margin: 0 0 26px; }
 .detail-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 8px; }
 
@@ -491,7 +522,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   place-items: center;
   transition: background 0.2s ease, transform 0.15s ease;
 }
-.detail-back svg { width: 22px; height: 22px; }
+.detail-back .ico { width: 22px; height: 22px; }
 .detail-back:hover { background: rgba(255, 255, 255, 0.16); }
 
 /* ---------- Lightbox ---------- */
@@ -581,8 +612,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
  * ==================================================================== */
 
 /* inline meta icons */
-.hero-meta svg, .detail-meta svg { width: 15px; height: 15px; vertical-align: -2px; }
-.hero-meta .rating svg, .detail-meta .rating svg { width: 15px; height: 15px; }
+.hero-meta .ico, .detail-meta .ico { width: 15px; height: 15px; vertical-align: -2px; }
+.hero-meta .rating .ico, .detail-meta .rating .ico { width: 15px; height: 15px; }
 
 /* detail layout */
 .detail-main { display: flex; flex-direction: column; gap: 44px; min-width: 0; }
@@ -625,7 +656,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   transition: color 0.2s ease;
 }
 .ext-link:hover { color: #fff; }
-.ext-link svg { width: 13px; height: 13px; }
+.ext-link .ico { width: 13px; height: 13px; }
 
 /* where to watch */
 .watch-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
@@ -696,7 +727,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .person-card:hover .person-photo { transform: translateY(-3px); box-shadow: var(--shadow); }
 .person-photo img { width: 100%; height: 100%; object-fit: cover; }
 .person-initial { font-size: 2rem; font-weight: 800; color: var(--muted); }
-.person-initial svg { width: 46px; height: 46px; }
+.person-initial .ico { width: 46px; height: 46px; }
 .person-name { font-size: 0.86rem; font-weight: 600; }
 .person-role { font-size: 0.72rem; color: var(--muted-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
@@ -741,7 +772,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   place-items: center;
   transition: background 0.2s ease;
 }
-.modal-close svg { width: 20px; height: 20px; }
+.modal-close .ico { width: 20px; height: 20px; }
 .modal-close:hover { background: rgba(255, 255, 255, 0.14); }
 .person-head { display: flex; gap: 22px; margin-bottom: 22px; padding-right: 44px; }
 .person-head h2 { margin: 0 0 6px; font-size: 1.5rem; letter-spacing: -0.02em; }

@@ -14,9 +14,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="StreamX" />
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
-  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="apple-touch-icon" href="icons/icon.svg" />
+  <link rel="mask-icon" href="icons/icon.svg" color="#ff3b47" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0c'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='40' font-weight='bold' text-anchor='middle' fill='%23ff3b47'%3EX%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -30,31 +30,31 @@
         <a data-view="series" href="#/series">Series</a>
       </nav>
       <form class="search" id="search-form" role="search">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11.5" cy="11.5" r="9.5" stroke="currentColor" stroke-width="1.5"/><path d="M18.5 18.5L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="ico ico-magnifer search-icon" aria-hidden="true"></span>
         <input id="search-input" type="search" placeholder="Search movies &amp; series" autocomplete="off" aria-label="Search" />
         <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" hidden>&times;</button>
       </form>
       <a class="nav-search-btn" href="#/search" aria-label="Search">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11.5" cy="11.5" r="9.5" stroke="currentColor" stroke-width="1.5"/><path d="M18.5 18.5L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="ico ico-magnifer" aria-hidden="true"></span>
       </a>
     </div>
   </header>
 
   <nav class="tabbar" aria-label="App navigation">
     <a class="tab" data-view="home" href="#/" aria-label="Home">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2 12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274C22 8.77128 22 9.91549 22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039Z" stroke="currentColor" stroke-width="1.5"/><path d="M9 16C9.85038 16.6303 10.8846 17 12 17C13.1154 17 14.1496 16.6303 15 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span class="ico ico-home-smile" aria-hidden="true"></span>
       <span>Home</span>
     </a>
     <a class="tab" data-view="movie" href="#/movies" aria-label="Movies">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z" stroke="currentColor" stroke-width="1.5"/><path d="M21.5 8H2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10.5 2.5L7 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M17 2.5L13.5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span class="ico ico-clapperboard" aria-hidden="true"></span>
       <span>Movies</span>
     </a>
     <a class="tab" data-view="series" href="#/series" aria-label="Series">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22L8 22C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16L2 12C2 9.17157 2 7.75736 2.87868 6.87868C3.75736 6 5.17157 6 8 6L16 6C18.8284 6 20.2426 6 21.1213 6.87868C22 7.75736 22 9.17157 22 12V16Z" stroke="currentColor" stroke-width="1.5"/><path d="M9 2L12 5.5L15 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M16 6V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M20 16C20 15.4477 19.5523 15 19 15C18.4477 15 18 15.4477 18 16C18 16.5523 18.4477 17 19 17C19.5523 17 20 16.5523 20 16Z" fill="currentColor"/><path d="M20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12Z" fill="currentColor"/></svg>
+      <span class="ico ico-tv" aria-hidden="true"></span>
       <span>Series</span>
     </a>
     <a class="tab" data-view="search" href="#/search" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11.5" cy="11.5" r="9.5" stroke="currentColor" stroke-width="1.5"/><path d="M18.5 18.5L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span class="ico ico-magnifer" aria-hidden="true"></span>
       <span>Search</span>
     </a>
   </nav>

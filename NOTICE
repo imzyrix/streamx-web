@@ -9,13 +9,15 @@ The icons used in this front end come from the **Solar Icon Set**.
   (Figma: https://www.figma.com/@480design · Telegram: https://t.me/Design480)
 - **License:** Creative Commons Attribution 4.0 International (CC BY 4.0) —
   https://creativecommons.org/licenses/by/4.0/
-- **Changes made:** a subset of the *Linear* and *Bold* styles was selected,
-  inlined into `js/icons.js`, stripped of fixed `width`/`height`/`class`
-  attributes, and recoloured from `black` to `currentColor` so the icons inherit
-  text colour. No shapes were altered.
+- **Changes made:** a subset of the *Linear* and *Bold* styles was selected and
+  copied verbatim into `icons/solar/<style>/` (only unused `class`/`width`/
+  `height` attributes are irrelevant to the mask). Rendering uses CSS
+  `mask-image`, so the icons adopt the surrounding `currentColor`. No shapes
+  were altered.
 
-The icons are compiled into `js/icons.js`. No network request is made to render
-them; they ship with the page.
+The SVGs are vendored verbatim under `icons/solar/<style>/` and rendered as CSS
+masks (`mask-image`) so each icon inherits the current text colour. See the
+`NOTICE` file for the full attribution.
 
 Metadata and artwork shown in the UI are provided by the [StreamX API](../api)
 (Cinemeta, MetaHub, Rotten Tomatoes, Metacritic, JustWatch, Wikidata, Wikipedia,
