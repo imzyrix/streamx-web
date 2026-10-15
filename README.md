@@ -68,6 +68,25 @@ Dark only, by definition. Surfaces are black shades (`#050505`–`#232323`);
 `#757575` is the specified secondary palette token, with `#a6a6a6`
 (`--color-body`) used for long-form reading text so contrast clears WCAG AA.
 
+## Deployment
+
+Hosted on **Cloudflare Pages**, project `streamx-web`, git-connected to
+`imzyrix/streamx-web` (production branch `main`, custom domain `streamx.qzz.io`).
+Every push to `main` triggers a production build; pull requests get preview
+deployments.
+
+The Pages project must be configured with these build settings:
+
+| Setting             | Value                     |
+| ------------------- | ------------------------- |
+| Build command       | `npm run build`           |
+| Build output dir    | `dist`                    |
+| Root directory      | *(repo root, leave empty)* |
+| Env var `NODE_VERSION` | `22`                   |
+
+The vendored three.js asset (`public/vendor/three/three.module.js`) is committed,
+so the build step is only `vite build` — it never has to run `vendor:three`.
+
 ## Attribution
 
 See [`NOTICE`](./NOTICE). Icons are CC BY 4.0 (Solar Icon Set by 480 Design);
