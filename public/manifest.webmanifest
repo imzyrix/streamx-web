@@ -1,0 +1,18 @@
+{
+  "name": "StreamX — Movies & Series",
+  "short_name": "StreamX",
+  "description": "Browse trending movies and series. Ratings, cast, facts and where to watch.",
+  "id": "streamx-web",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "lang": "en",
+  "categories": ["entertainment", "video"],
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

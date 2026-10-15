@@ -1,82 +1,44 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#070709" />
-  <title>StreamX — Movies &amp; Series</title>
-  <meta name="description" content="Browse trending movies and series. Keyless metadata API. Ratings, cast, where to watch." />
-  <link rel="preconnect" href="https://api.streamx.qzz.io" crossorigin />
-  <link rel="preconnect" href="https://images.metahub.space" crossorigin />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="color-scheme" content="dark" />
+    <title>StreamX — Movies &amp; Series</title>
+    <meta
+      name="description"
+      content="StreamX — browse trending movies and series with IMDb, Rotten Tomatoes and Metacritic scores, cast, facts and where to watch. Powered by a keyless metadata API."
+    />
+    <link rel="preconnect" href="https://api.streamx.qzz.io" crossorigin />
+    <link rel="preconnect" href="https://images.metahub.space" crossorigin />
+    <link rel="dns-prefetch" href="https://streamx-api.pages.dev" />
 
-  <link rel="manifest" href="manifest.webmanifest" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="StreamX" />
-  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
-  <link rel="apple-touch-icon" href="icons/icon.svg" />
-  <link rel="mask-icon" href="icons/icon.svg" color="#ff3b47" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0a0c'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='40' font-weight='bold' text-anchor='middle' fill='%23ff3b47'%3EX%3C/text%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header class="nav" id="nav">
-    <div class="nav-inner">
-      <a class="brand" href="#/" aria-label="StreamX home">Stream<span>X</span></a>
-      <nav class="nav-links" aria-label="Primary">
-        <a data-view="home" href="#/">Home</a>
-        <a data-view="movie" href="#/movies">Movies</a>
-        <a data-view="series" href="#/series">Series</a>
-      </nav>
-      <form class="search" id="search-form" role="search">
-        <span class="ico ico-magnifer search-icon" aria-hidden="true"></span>
-        <input id="search-input" type="search" placeholder="Search movies &amp; series" autocomplete="off" aria-label="Search" />
-        <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" hidden>&times;</button>
-      </form>
-      <a class="nav-search-btn" href="#/search" aria-label="Search">
-        <span class="ico ico-magnifer" aria-hidden="true"></span>
-      </a>
-    </div>
-  </header>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="StreamX" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
+    <link rel="mask-icon" href="/icon.svg" color="#ffffff" />
 
-  <nav class="tabbar" aria-label="App navigation">
-    <a class="tab" data-view="home" href="#/" aria-label="Home">
-      <span class="ico ico-home-smile" aria-hidden="true"></span>
-      <span>Home</span>
-    </a>
-    <a class="tab" data-view="movie" href="#/movies" aria-label="Movies">
-      <span class="ico ico-clapperboard" aria-hidden="true"></span>
-      <span>Movies</span>
-    </a>
-    <a class="tab" data-view="series" href="#/series" aria-label="Series">
-      <span class="ico ico-tv" aria-hidden="true"></span>
-      <span>Series</span>
-    </a>
-    <a class="tab" data-view="search" href="#/search" aria-label="Search">
-      <span class="ico ico-magnifer" aria-hidden="true"></span>
-      <span>Search</span>
-    </a>
-  </nav>
-
-  <main id="main">
-    <section class="hero" id="hero" aria-live="polite"></section>
-    <div class="rows" id="rows"></div>
-    <section class="search-results hidden" id="search-results"></section>
-  </main>
-
-  <footer class="footer">
-    <p><strong>StreamX</strong> — data &amp; artwork via a keyless metadata API.</p>
-    <p class="muted">Metadata by Cinemeta · artwork by MetaHub · ratings via Rotten Tomatoes &amp; Metacritic · offers via JustWatch.</p>
-  </footer>
-
-  <div class="detail hidden" id="detail" role="dialog" aria-modal="true" aria-label="Title details"></div>
-  <div class="lightbox hidden" id="lightbox"></div>
-
-  <noscript>
-    <div class="empty">StreamX needs JavaScript to load catalogue data.</div>
-  </noscript>
-
-  <script type="module" src="js/main.js"></script>
-</body>
+    <!-- Three.js is served as a pre-built asset rather than bundled into the app. -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/vendor/three/three.module.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="padding: 4rem 2rem; font-family: system-ui; color: #f5f5f5; background: #050505">
+        StreamX needs JavaScript to load catalogue data.
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

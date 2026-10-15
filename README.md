@@ -1,120 +1,75 @@
-# StreamX Web
+# StreamX — Web
 
-A Netflix-style front end (static HTML/CSS/JS, **no build step, no dependencies**) that browses
-movies and series through the keyless [StreamX API](../api). The codebase is organised into small
-ES modules under `js/` and wires the API deeply: ratings from three sources, cast & crew, where to
-watch, similar titles, facts/Wikidata, Wikipedia summaries and series episodes.
+A monochrome, motion-rich front end for the **StreamX** metadata API. It surfaces
+everything a poster wall usually hides: aggregate scores, full cast and crew,
+production facts, episode guides, trailers, similar titles, Wikipedia summaries
+and where-to-watch availability — with **no accounts, no tracking and no API
+keys in the browser**.
 
-## Backend
+Built with **Vite + React 19 + TypeScript**, styled with **Tailwind CSS v4**, and
+animated with **Motion**, **GSAP**, **Lenis** and **anime.js**. The page
+background is a live **WebGL** shader plane (three.js).
 
-The UI talks to a StreamX API deployment. The base URLs live in `js/config.js`:
+## Stack
 
-```js
-export const API_BASE = "https://api.streamx.qzz.io";
-export const API_FALLBACK = "https://streamx-api.pages.dev";
-export const DEFAULT_COUNTRY = "US";
-```
+| Concern      | Choice                                                              |
+| ------------ | ------------------------------------------------------------------- |
+| Build        | Vite 8 (rolldown) + `@vitejs/plugin-react`                          |
+| UI           | React 19, React Router 7 (`HashRouter`)                             |
+| Styling      | Tailwind CSS v4 (`@tailwindcss/vite`), strict monochrome dark theme |
+| Motion       | `motion` (Framer Motion), `gsap` + ScrollTrigger, `lenis`, `animejs` |
+| 3D           | `three` (vendored as a prebuilt static asset — see below)           |
+| Fonts        | Space Grotesk, Manrope, JetBrains Mono (`@fontsource-variable`)     |
+| Icons        | Solar Icon Set — **Bold** and **Bold Duotone** only                 |
 
-If the primary base is unreachable, the client retries against the fallback and remembers the new
-base for the session. Change `API_BASE` to point at any other StreamX API instance.
-
-## Endpoints wired
-
-| Purpose             | Endpoint                                              |
-| ------------------- | ----------------------------------------------------- |
-| Rows / catalogue    | `GET /catalog/:type/:catalog?genre=&skip=`            |
-| Search              | `GET /search?q=&type=movie\|series`                   |
-| IMDb suggestions    | `GET /imdb/search?q=`                                 |
-| Anime               | `GET /anime/search?q=` (AniList)                      |
-| Details             | `GET /meta/:type/:id`                                 |
-| Ratings             | `GET /scores/:type/:id` (IMDb · RT · Metacritic)      |
-| Cast & crew         | `GET /credits/:type/:id` (Wikidata)                   |
-| Similar titles      | `GET /similar/:type/:id`                              |
-| Where to watch      | `GET /streaming/:type/:id?country=` (JustWatch)       |
-| TV (series)         | `GET /tv/:id` (TVmaze)                                |
-| Person bio          | `GET /person/:id`                                     |
-| Artwork             | `GET /images/:type/:id` + `/img/...`                  |
-| Health              | `GET /health`                                         |
-
-Every request is memoised for the session (identical calls resolve once) and every detail extra
-loads independently and **fails soft** — a slow or missing upstream just hides that section.
-
-## Features
-
-- Hero banner with logo artwork, backdrop, rating, and rotating featured titles
-- Horizontally scrolling rows (trending + genres) with skeleton loading states
-- Live search across movies and series (debounced) plus **IMDb** and **AniList** results
-- Detail overlay:
-  - score dials — IMDb, Rotten Tomatoes (Tomatometer + Popcornmeter), Metacritic
-  - **Where to watch** with a region selector (JustWatch offers)
-  - **Cast** and **crew** (directors) rows → click a person for their bio modal
-  - **More like this** row
-  - Facts from Wikidata (budget, box office, certification, languages, companies…) + external links
-  - Wikipedia summary, genres, and trailer lightbox (YouTube)
-- Series view: season tabs and episode lists with stills/thumbnails
-- Hash routing (`#/movies`, `#/series`, `#/search/<q>`, `#/title/<type>/<id>`) — deep-linkable
-- Fully responsive, keyboard-friendly (Esc closes overlays), reduced-motion aware
-
-## Project layout
-
-```
-Web/
-├── index.html              # shell: nav, tab bar, hero, rows, detail + lightbox containers
-├── style.css               # design tokens + component styles (incl. mobile app mode)
-├── manifest.webmanifest    # PWA manifest (name, icons, standalone display)
-├── NOTICE                  # third-party attribution (Solar Icon Set, CC BY 4.0)
-├── icons/                  # SVG app icon + vendored Solar SVGs (icons/solar/<style>/)
-└── js/
-    ├── config.js           # API base URLs, home rows, timing
-    ├── api.js              # fetch client, session cache, fallback, image URL helpers
-    ├── util.js             # DOM + formatting helpers
-    ├── icons.js            # tiny helper emitting Solar icon spans (see icons/solar/)
-    ├── nav.js              # active navigation state
-    ├── cards.js            # poster card markup + skeletons
-    ├── hero.js             # rotating hero banner
-    ├── home.js             # browse view (hero + rows)
-    ├── search.js           # search view (title + IMDb + anime)
-    ├── detail.js           # full detail view (scores, credits, similar, streaming, episodes)
-    ├── person.js           # cast/crew bio modal
-    ├── lightbox.js         # trailer lightbox
-    ├── router.js           # hash router
-    └── main.js             # entry point: global events + routing
-```
-
-## Mobile app mode
-
-On phones (`≤900px`) the UI switches to a native-app layout:
-
-- Bottom **tab bar** (Home · Movies · Series · Search) with active-state highlighting
-- Full-screen **search screen** with its own input and live results
-- Detail opens as a full screen with a **back button** (top-left)
-- **Safe-area** padding for notched devices (`env(safe-area-inset-*)`)
-- Card titles shown without hover on touch devices
-
-It is also an installable **PWA**: `manifest.webmanifest` + icons let it be added to the home
-screen and launch standalone (`display: standalone`, portrait, dark theme).
-
-## Run locally
-
-Any static file server works (ES modules require HTTP, not `file://`):
+## Scripts
 
 ```bash
-cd Web
-python3 -m http.server 5500
-# open http://localhost:5500
+npm install
+npm run dev         # Vite dev server
+npm run build       # production build → dist/
+npm run preview     # preview the production build on :4173
+npm run typecheck   # tsc --noEmit
+npm run vendor:three  # regenerate public/vendor/three/three.module.js
 ```
 
-## Deploy
+### Why three.js is not bundled
 
-Static hosting — no build command, no environment variables. Publish this folder as the output root.
+The app build keeps `three` **external** and imports it from
+`/vendor/three/three.module.js`, a prebuilt, minified ESM file generated once by
+`npm run vendor:three`. This keeps the app chunk small and avoids the bundler
+parsing ~1.4 MB of library code on every build. `index.html` also carries an
+import map for `three` as a fallback resolution path.
 
-- **Cloudflare Pages:** Framework preset `None`, build command empty, output directory `Web` (or set
-  this folder as the project root and output `.`).
-- **Netlify / Vercel / GitHub Pages:** publish the `Web` folder directly.
+## Routes
 
-Metadata is provided by [Cinemeta](https://github.com/Stremio/stremio-addons) and artwork by
-[MetaHub](https://www.metahub.space); ratings via Rotten Tomatoes & Metacritic; streaming offers via
-JustWatch; people via Wikidata/Wikipedia; TV via TVmaze; anime via AniList — all keyless.
+`HashRouter` so the site can be hosted on any static host with deep links:
 
-Icons: [Solar Icon Set](https://github.com/480-Design/Solar-Icon-Set) by 480 Design, licensed
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — see [NOTICE](./NOTICE).
+| Route                      | Page                                            |
+| -------------------------- | ----------------------------------------------- |
+| `#/`                       | Home — hero, capability band, rows, why-StreamX |
+| `#/movies`                 | Movies catalogue (genre filter, load more)      |
+| `#/series`                 | Series catalogue                                |
+| `#/search`                 | Search (movies + series + IMDb suggestions)     |
+| `#/search/:q`              | Search results for a query                      |
+| `#/title/:type/:id`        | Title detail (scores, cast, facts, episodes, …) |
+| anything else              | Not found                                       |
+
+## Data
+
+All data comes from the keyless StreamX API (`https://api.streamx.qzz.io`, with
+`https://streamx-api.pages.dev` as a fallback). See `src/lib/api.ts` for the
+endpoint bindings and `src/lib/types.ts` for the response shapes. The watchlist
+is stored locally in `localStorage` and never leaves the device.
+
+## Theme
+
+Dark only, by definition. Surfaces are black shades (`#050505`–`#232323`);
+`#757575` is the specified secondary palette token, with `#a6a6a6`
+(`--color-body`) used for long-form reading text so contrast clears WCAG AA.
+
+## Attribution
+
+See [`NOTICE`](./NOTICE). Icons are CC BY 4.0 (Solar Icon Set by 480 Design);
+fonts are SIL OFL 1.1; three.js is MIT. Posters and artwork remain © their
+respective rights holders.
